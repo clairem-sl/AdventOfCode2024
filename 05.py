@@ -45,7 +45,7 @@ if TYPE_CHECKING:
     RulesDict = dict[tuple[str, str], re.Pattern]
 
 
-def correct_order2(rules: list[tuple[str, str]], line: list[str]) -> bool:
+def correct_order(rules: list[tuple[str, str]], line: list[str]) -> bool:
     applicable = 0
     correct = 0
     for a, b in rules:
@@ -56,29 +56,29 @@ def correct_order2(rules: list[tuple[str, str]], line: list[str]) -> bool:
     return correct == applicable
 
 
-def check2_1(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
+def check_1(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     # fmt: off
     valid: list[list[str]] = [
         ln
         for ln in data
-        if correct_order2(rules, ln)
+        if correct_order(rules, ln)
     ]
     # fmt: on
     return sum(int(v[len(v) // 2]) for v in valid)
 
 
-def check2_2(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
+def check_2(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     # fmt: off
     invalid: list[list[str]] = [
         ln
         for ln in data
-        if not correct_order2(rules, ln)
+        if not correct_order(rules, ln)
     ]
     # fmt: on
     corrected: list[list[str]] = []
     ln: list[str]
     for ln in invalid:
-        while not correct_order2(rules, ln):
+        while not correct_order(rules, ln):
             for a, b in rules:
                 if a not in ln or b not in ln:
                     continue
@@ -89,7 +89,7 @@ def check2_2(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     return sum(int(ln[len(ln) // 2]) for ln in corrected)
 
 
-def consume2(stream) -> tuple[list[tuple[str, str]], list[list[str]]]:
+def consume(stream) -> tuple[list[tuple[str, str]], list[list[str]]]:
     rules: list[tuple[str, str]] = []
     data: list[list[str]] = []
     for ln in stream:
@@ -105,25 +105,25 @@ def consume2(stream) -> tuple[list[tuple[str, str]], list[list[str]]]:
 
 def _test():
     with io.StringIO(TEST_VECTOR) as fin:
-        rules2, data2 = consume2(fin)
+        rules2, data2 = consume(fin)
 
-    result = check2_1(rules2, data2)
+    result = check_1(rules2, data2)
     print("Test Vector Case 1:", result)
     assert result == TEST_RESULT_1
 
-    result = check2_2(rules2, data2)
+    result = check_2(rules2, data2)
     print("Test Vector Case 2:", result)
     assert result == TEST_RESULT_2
 
 
 def _main():
     with open("05.txt", "rt") as fin:
-        rules2, data2 = consume2(fin)
+        rules2, data2 = consume(fin)
 
-    result = check2_1(rules2, data2)
+    result = check_1(rules2, data2)
     print("Actual Data Case 1:", result)
 
-    result = check2_2(rules2, data2)
+    result = check_2(rules2, data2)
     print("Actual Data Case 2:", result)
 
 
