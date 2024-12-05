@@ -45,7 +45,7 @@ if TYPE_CHECKING:
     RulesDict = dict[tuple[str, str], re.Pattern]
 
 
-def correct_order(rules: list[tuple[str, str]], line: list[str]) -> bool:
+def is_correct_order(rules: list[tuple[str, str]], line: list[str]) -> bool:
     applicable = 0
     correct = 0
     for a, b in rules:
@@ -61,7 +61,7 @@ def check_1(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     valid: list[list[str]] = [
         ln
         for ln in data
-        if correct_order(rules, ln)
+        if is_correct_order(rules, ln)
     ]
     # fmt: on
     return sum(int(v[len(v) // 2]) for v in valid)
@@ -72,13 +72,13 @@ def check_2(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     invalid: list[list[str]] = [
         ln
         for ln in data
-        if not correct_order(rules, ln)
+        if not is_correct_order(rules, ln)
     ]
     # fmt: on
     corrected: list[list[str]] = []
     ln: list[str]
     for ln in invalid:
-        while not correct_order(rules, ln):
+        while not is_correct_order(rules, ln):
             for a, b in rules:
                 if a not in ln or b not in ln:
                     continue
