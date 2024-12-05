@@ -1,0 +1,10 @@
+# PyCharm detritus
+.idea/
+
+# Python detritus
+.venv/
+__pycache__/
+*.py[co]
+
+# AoC organizers ask us to not upload the day's data file
+*.txt
