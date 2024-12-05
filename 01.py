@@ -22,21 +22,21 @@ def consume(stream) -> tuple[list[int], list[int]]:
     for ln in stream:
         if not (ln := ln.strip()):
             continue
-        l, r = ln.split()
-        left.append(int(l))
-        right.append(int(r))
+        left, right = ln.split()
+        left.append(int(left))
+        right.append(int(right))
     return left, right
 
 
 def calculate_1(seq1, seq2):
     ss1 = sorted(seq1)
     ss2 = sorted(seq2)
-    return sum(abs(l - r) for l, r in zip(ss1, ss2))
+    return sum(abs(left - right) for left, right in zip(ss1, ss2))
 
 
 def calculate_2(seq1, seq2):
     cs2 = collections.Counter(seq2)
-    return sum(l * cs2[l] for l in seq1 if l in cs2)
+    return sum(left * cs2[left] for left in seq1 if left in cs2)
 
 
 def _test():

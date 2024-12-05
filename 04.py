@@ -32,10 +32,10 @@ def count_xmas(matrix: list[str]) -> int:
     lx: int
     ly: int
 
-    def check_mas(x, y, dir_x: ScanDir, dir_y: ScanDir) -> bool:
+    def check_mas(sx, sy, dir_x: ScanDir, dir_y: ScanDir) -> bool:
         if dir_x == dir_y == ScanDir.stay:
             return False
-        _x, _y = x, y
+        _x, _y = sx, sy
         for c in "MAS":
             _x += dir_x
             _y += dir_y
@@ -66,10 +66,10 @@ def count_crossmas(matrix: list[str]) -> int:
 
     _MS_PATT = {"MSMS", "MMSS", "SMSM", "SSMM"}
 
-    def check_ms(x, y) -> bool:
+    def check_ms(sx, sy) -> bool:
         # fmt: off
         cross_patt = "".join(
-            matrix[y + dy][x + dx]
+            matrix[sy + dy][sx + dx]
             for dy in (-1, 1)
             for dx in (-1, 1)
         )
