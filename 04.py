@@ -47,19 +47,17 @@ def count_xmas(matrix: list[str]) -> int:
             return False
         return True
 
-    accu = 0
-    ly = len(matrix)
-    for y in range(ly):
-        lx = len(matrix[y])
-        for x in range(lx):
-            if matrix[y][x] != "X":
-                continue
-            accu += sum(
-                check_mas(x, y, xd, yd)
-                for xd, yd in product(iter(ScanDir), iter(ScanDir))
-            )
-
-    return accu
+    # fmt: off
+    return sum(
+        sum(
+            check_mas(x, y, xd, yd)
+            for xd, yd in product(iter(ScanDir), iter(ScanDir))
+        )
+        for y, row in enumerate(matrix)
+        for x, char in enumerate(row)
+        if char == "X"
+    )
+    # fmt: on
 
 
 def count_crossmas(matrix: list[str]) -> int:
