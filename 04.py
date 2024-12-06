@@ -29,20 +29,22 @@ class ScanDir(IntEnum):
 
 
 def count_xmas(matrix: list[str]) -> int:
-    lx: int
-    ly: int
 
     def check_mas(sx, sy, dir_x: ScanDir, dir_y: ScanDir) -> bool:
         if dir_x == dir_y == ScanDir.stay:
             return False
         _x, _y = sx, sy
-        for c in "MAS":
-            _x += dir_x
-            _y += dir_y
-            if not (0 <= _x < lx) or not (0 <= _y < ly):
-                return False
-            if matrix[_y][_x] != c:
-                return False
+        try:
+            for c in "MAS":
+                _x += dir_x
+                _y += dir_y
+                # Prevent wraparound
+                if _y < 0 or _x < 0:
+                    return False
+                if matrix[_y][_x] != c:
+                    return False
+        except IndexError:
+            return False
         return True
 
     accu = 0
