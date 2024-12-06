@@ -61,9 +61,6 @@ def count_xmas(matrix: list[str]) -> int:
 
 
 def count_crossmas(matrix: list[str]) -> int:
-    lx: int
-    ly: int
-
     _MS_PATT = {"MSMS", "MMSS", "SMSM", "SSMM"}
 
     def check_ms(sx, sy) -> bool:
@@ -76,14 +73,12 @@ def count_crossmas(matrix: list[str]) -> int:
         # fmt: on
         return cross_patt in _MS_PATT
 
-    accu = 0
-    ly = len(matrix)
-    for y in range(1, ly - 1):
-        lx = len(matrix[y])
-        for x in range(1, lx - 1):
-            if matrix[y][x] != "A":
-                continue
-            accu += check_ms(x, y)
+    accu = sum(
+        check_ms(x, y)
+        for y, row in enumerate(matrix[1:-1], 1)
+        for x, c in enumerate(row[1:-1], 1)
+        if c == "A"
+    )
 
     return accu
 
