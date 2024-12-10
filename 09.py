@@ -3,6 +3,7 @@ from __future__ import annotations
 import io
 import itertools
 import sys
+import time
 
 from collections import deque
 from pathlib import Path
@@ -147,5 +148,8 @@ def _main():
 
 
 if __name__ == '__main__':
+    _start = time.monotonic()
     _test()
     _main()
+    _elapsed = time.monotonic() - _start
+    print(f"Done in {_elapsed:.3f} seconds")
