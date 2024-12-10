@@ -78,6 +78,7 @@ def check_2(rules: list[tuple[str, str]], data: list[list[str]]) -> int:
     corrected: list[list[str]] = []
     ln: list[str]
     for ln in invalid:
+        # We're basically doing Exchange Sort here
         while not is_correct_order(rules, ln):
             for a, b in rules:
                 if a not in ln or b not in ln:
