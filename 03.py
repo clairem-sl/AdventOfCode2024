@@ -13,16 +13,16 @@ xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
 """
 TEST_RESULT_2 = 48
 
-RE_MUL = re.compile(r"mul\((\d+),(\d+)\)")
-RE_OP = re.compile(r"do\(\)|don't\(\)|mul\((\d+),(\d+)\)")
+RE_MUL = re.compile(r"mul\((?P<d1>\d+),(?P<d2>\d+)\)")
+RE_OP = re.compile(r"do(?:n't)?\(\)|mul\((?P<d1>\d+),(?P<d2>\d+)\)")
 
 
 def calculate_1(s: str) -> int:
     m: re.Match
     acc = 0
     for m in RE_MUL.finditer(s):
-        a = int(m.group(1))
-        b = int(m.group(2))
+        a = int(m.group("d1"))
+        b = int(m.group("d2"))
         acc += a * b
     return acc
 
@@ -39,8 +39,8 @@ def calculate_2(s: str) -> int:
                 do = False
             case _:
                 if do:
-                    a = int(m.group(1))
-                    b = int(m.group(2))
+                    a = int(m.group("d1"))
+                    b = int(m.group("d2"))
                     acc += a * b
     return acc
 
