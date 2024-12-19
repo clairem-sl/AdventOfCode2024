@@ -9,7 +9,9 @@ import sys
 from collections.abc import Callable
 from enum import Enum, auto
 from pathlib import Path
-from typing import Final, NamedTuple, Sequence
+from typing import Final
+
+from aoc2024_common import Point
 
 
 TEST_VECTOR_1: Final[str] = """\
@@ -57,25 +59,6 @@ ABBAAA
 AAAAAA
 """
 TEST_EXPECT_4_2: Final[int] = 368
-
-
-class Point(NamedTuple):
-    x: int
-    y: int
-
-    def __add__(self, other: Point) -> Point:
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __matmul__(self, matrix: Sequence[Sequence[str | None]]) -> str | None:
-        if not (0 <= self.y < len(matrix)):
-            return None
-        line = matrix[self.y]
-        if not (0 <= self.x < len(line)):
-            return None
-        return line[self.x]
-
-    def __str__(self):
-        return f"({self.x}, {self.y})"
 
 
 DIRS: Final[list[Point]] = [

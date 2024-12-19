@@ -7,8 +7,9 @@ import sys
 
 from collections import Counter
 from pathlib import Path
-from typing import NamedTuple, Sequence
+from typing import NamedTuple
 
+from aoc2024_common import Point
 
 TEST_VECTORa = """\
 p=0,4 v=3,-3
@@ -39,34 +40,6 @@ TEST_EXPECT_1 = """\
 
 TEST_EXPECT_2 = 1, 3, 4, 1
 TEST_EXPECT_3 = 12
-
-
-class Point(NamedTuple):
-    x: int
-    y: int
-
-    def __add__(self, other: Point) -> Point:
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __mul__(self, other: int) -> Point:
-        return Point(self.x * other, self.y * other)
-
-    def __mod__(self, other: Point) -> Point:
-        return Point(self.x % other.x, self.y % other.y)
-
-    def __matmul__(self, matrix: Sequence[Sequence[str | None]]) -> str | None:
-        if not (0 <= self.y < len(matrix)):
-            return None
-        line = matrix[self.y]
-        if not (0 <= self.x < len(line)):
-            return None
-        return line[self.x]
-
-    def __str__(self):
-        return f"({self.x}, {self.y})"
-
-    def shift_by(self, dx, dy):
-        return Point(self.x + dx, self.y + dy)
 
 
 class Robot(NamedTuple):

@@ -5,7 +5,9 @@ import itertools
 import sys
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Final, NamedTuple
+from typing import Final
+
+from aoc2024_common import Point
 
 
 TEST_VECTOR_1: Final[str] = """\
@@ -31,31 +33,6 @@ TEST_VECTOR_2: Final[str] = """\
 ...
 """
 TEST_EXPECT_2_1: Final[int] = 1
-
-
-class Point(NamedTuple):
-    x: int
-    y: int
-
-    def shift_to(self, other: Point) -> Point:
-        """Calculate shift needed to translate to another Point. The values will be directional"""
-        return Point(other.x - self.x, other.y - self.y)
-
-    def shift_by(self, dx: int, dy: int) -> Point:
-        """Return a Point after applying a shift (translate) transform"""
-        return Point(self.x + dx, self.y + dy)
-
-    def __neg__(self):
-        return Point(-self.x, -self.y)
-
-    def __add__(self, other: Point):
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other: Point):
-        return Point(self.x - other.x, self.y - other.y)
-
-    def within(self, ubound_x: int, ubound_y: int, lbound_x: int = 0, lbound_y: int = 0):
-        return (lbound_x <= self.x < ubound_x) and (lbound_y <= self.y < ubound_y)
 
 
 def consume(stream):

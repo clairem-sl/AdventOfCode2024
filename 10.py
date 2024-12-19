@@ -4,7 +4,9 @@ import io
 import sys
 from functools import cache
 from pathlib import Path
-from typing import Final, NamedTuple, Sequence
+from typing import Final
+
+from aoc2024_common import Point
 
 
 TEST_VECTOR: Final[str] = """\
@@ -19,25 +21,6 @@ TEST_VECTOR: Final[str] = """\
 """
 TEST_EXPECT_1: Final[int] = 36
 TEST_EXPECT_2: Final[int] = 81
-
-
-class Point(NamedTuple):
-    x: int
-    y: int
-
-    def __add__(self, other: Point) -> Point:
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __matmul__(self, matrix: Sequence[str]) -> int | None:
-        if not (0 <= self.y < len(matrix)):
-            return None
-        line = matrix[self.y]
-        if not (0 <= self.x < len(line)):
-            return None
-        return int(line[self.x])
-
-    def __str__(self):
-        return f"({self.x}, {self.y})"
 
 
 DIRS = [
@@ -60,9 +43,9 @@ def _find_trail_recurse(
     solutions = []
     for _dir in DIRS:
         try_pos = cur_pos + _dir
-        if (try_val := try_pos @ matrix) is None:
+        if (try_val_s := try_pos @ matrix) is None:
             continue
-        if try_val != next_val:
+        if int(try_val_s) != next_val:
             continue
         next_trail = tuple(list(so_far) + [try_pos])
         for solution in _find_trail_recurse(matrix, next_trail, max_val):
