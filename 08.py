@@ -2,13 +2,10 @@ from __future__ import annotations
 
 import io
 import itertools
-import sys
 
-from pathlib import Path
 from typing import Final
 
-from aoc2024_common import Point
-
+from aoc2024_common import Point, open_puzzle_input
 
 TEST_VECTOR_1: Final[str] = """\
 ............
@@ -119,8 +116,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         dim_x, dim_y, antennae = consume(fin)
 
     antinodes = find_antinodes(dim_x, dim_y, antennae)
@@ -132,6 +128,6 @@ def _main():
     print("Case 2:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

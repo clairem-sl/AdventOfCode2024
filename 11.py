@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import io
-import sys
 
 from functools import cache
-from pathlib import Path
 from typing import Final
 
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR_1: Final[str] = """\
 0 1 10 99 999
@@ -90,10 +89,7 @@ def _test():
         assert result == expect
 
     for blinks, expect in TEST_EXPECT_2_1:
-        result = sum(
-            count_mutations(seed, blinks)
-            for seed in data
-        )
+        result = sum(count_mutations(seed, blinks) for seed in data)
         print(f"Test rec 2-{blinks}:", result)
         assert result == expect
 
@@ -101,8 +97,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
 
     mutated = mutate(data, 25)
@@ -114,13 +109,10 @@ def _main():
     # result = len(mutated)
     # print("Case 2:", result)
     # del mutated
-    result = sum(
-        count_mutations(seed, 75)
-        for seed in data
-    )
+    result = sum(count_mutations(seed, 75) for seed in data)
     print("Case 2:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

@@ -5,6 +5,7 @@ import re
 
 from typing import Final, TYPE_CHECKING
 
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR: Final[str] = """\
 47|53
@@ -118,7 +119,7 @@ def _test():
 
 
 def _main():
-    with open("05.txt", "rt") as fin:
+    with open_puzzle_input() as fin:
         rules2, data2 = consume(fin)
 
     result = check_1(rules2, data2)

@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import io
 import re
-import sys
-from pathlib import Path
+
 from typing import Protocol, SupportsInt
+
+from aoc2024_common import open_puzzle_input
 
 # a1.x + b1.y + c1 = 0
 # a2.x + b2.y + c2 = 0
@@ -99,14 +100,7 @@ def consume(stream):
             continue
         if m := RE_PRIZE.match(ln):
             data.append(
-                (
-                    bdx[0],
-                    bdx[1],
-                    int(m.group("x")),
-                    bdy[0],
-                    bdy[1],
-                    int(m.group("y"))
-                )
+                (bdx[0], bdx[1], int(m.group("x")), bdy[0], bdy[1], int(m.group("y")))
             )
             bdx.clear()
             bdy.clear()
@@ -136,8 +130,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
 
     total = 0
@@ -161,6 +154,6 @@ def _main():
     print("Case 2:", total)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

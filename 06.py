@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import io
 import itertools
-import sys
-from pathlib import Path
+
 from typing import Final
+
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR = """\
 ....#.....
@@ -53,7 +54,9 @@ DIRECTIONS: Final[list[tuple[int, int]]] = [
 ]
 
 
-def walk_map(dim_x, dim_y, obstructions: set[tuple[int, int]], guard_start: tuple[int, int]):
+def walk_map(
+    dim_x, dim_y, obstructions: set[tuple[int, int]], guard_start: tuple[int, int]
+):
     passed: dict[tuple[int, int], set[tuple[int, int]]] = {}
     x, y = guard_start
     for dir_ in itertools.cycle(DIRECTIONS):
@@ -73,7 +76,9 @@ def walk_map(dim_x, dim_y, obstructions: set[tuple[int, int]], guard_start: tupl
                 return None
 
 
-def create_loop(dim_x, dim_y, obstructions: set[tuple[int, int]], guard_start: tuple[int, int]):
+def create_loop(
+    dim_x, dim_y, obstructions: set[tuple[int, int]], guard_start: tuple[int, int]
+):
     new_obstructions: set[tuple[int, int]] = set()
     ctr = itertools.count()
     found_ctr = itertools.count()
@@ -111,9 +116,9 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         dim_x, dim_y, obstructions, guard_start = consume(fin)
+
     passed = walk_map(dim_x, dim_y, obstructions, guard_start)
     result = len(passed)
     print("Case 1:", result)
@@ -124,6 +129,6 @@ def _main():
     print("Case 2:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

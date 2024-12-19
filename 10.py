@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import io
-import sys
+
 from functools import cache
-from pathlib import Path
 from typing import Final
 
-from aoc2024_common import Point
-
+from aoc2024_common import Point, open_puzzle_input
 
 TEST_VECTOR: Final[str] = """\
 89010123
@@ -33,12 +31,12 @@ DIRS = [
 
 @cache
 def _find_trail_recurse(
-        matrix: tuple[str, ...], so_far: tuple[Point, ...], max_val: int = 9
+    matrix: tuple[str, ...], so_far: tuple[Point, ...], max_val: int = 9
 ) -> tuple[tuple[Point, ...], ...]:
     cur_pos: Point = so_far[-1]
     cur_val: int = int(cur_pos @ matrix)
     if cur_val == max_val:
-        return so_far,
+        return (so_far,)
     next_val = cur_val + 1
     solutions = []
     for _dir in DIRS:
@@ -99,8 +97,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
 
     trails = find_trails(data)
@@ -112,6 +109,6 @@ def _main():
     print("Case 1:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

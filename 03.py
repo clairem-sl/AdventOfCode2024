@@ -3,6 +3,8 @@ from __future__ import annotations
 import io
 import re
 
+from aoc2024_common import open_puzzle_input
+
 TEST_VECTOR_1 = """\
 xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
 """
@@ -72,10 +74,12 @@ def _test():
 
 
 def _main():
-    with open("03.txt", "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
+
     result = calculate_1(data)
     print("Actual Data Case 1:", result)
+
     result = calculate_2(data)
     print("Actual Data Case 2:", result)
 

@@ -4,12 +4,12 @@ import io
 import itertools
 import operator
 import re
-import sys
 
 from collections import deque
 from collections.abc import Callable
-from pathlib import Path
 from typing import Final, TYPE_CHECKING
+
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR: Final[str] = """\
 190: 10 19
@@ -83,42 +83,33 @@ def _test():
         data = consume(fin)
 
     total = sum(
-        want
-        for want, operands in data
-        if validate(want, operands, VALID_OPS_1)
+        want for want, operands in data if validate(want, operands, VALID_OPS_1)
     )
     print("Test 1:", total)
     assert total == TEST_EXPECT_1
 
     total = sum(
-        want
-        for want, operands in data
-        if validate(want, operands, VALID_OPS_2)
+        want for want, operands in data if validate(want, operands, VALID_OPS_2)
     )
     print("Test 2:", total)
     assert total == TEST_EXPECT_2
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
 
     total = sum(
-        want
-        for want, operands in data
-        if validate(want, operands, VALID_OPS_1)
+        want for want, operands in data if validate(want, operands, VALID_OPS_1)
     )
     print("Case 1:", total)
 
     total = sum(
-        want
-        for want, operands in data
-        if validate(want, operands, VALID_OPS_2)
+        want for want, operands in data if validate(want, operands, VALID_OPS_2)
     )
     print("Case 2:", total)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

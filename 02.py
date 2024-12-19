@@ -3,6 +3,7 @@ from __future__ import annotations
 import io
 from itertools import combinations, pairwise
 
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR = """\
 7 6 4 2 1
@@ -47,10 +48,12 @@ def _test():
 
 
 def _main():
-    with open("02.txt", "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
+
     result = sum(check_safe_1(seq) for seq in data)
     print("Actual Data Case 1:", result)
+
     result = sum(check_safe_2(seq) for seq in data)
     print("Actual Data Case 2:", result)
 

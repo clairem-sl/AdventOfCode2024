@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import sys
 from functools import singledispatchmethod
-from typing import NamedTuple, Sequence, Self
+from pathlib import Path
+from typing import NamedTuple, Sequence, Self, TextIO
 
 
 class Point(NamedTuple):
@@ -59,3 +61,7 @@ def _(self, corner1: Point, corner2: Point, inclusive_max: bool = False):
     ymin = min(corner1.y, corner2.y)
     ymax = max(corner1.y, corner2.y) + inclusive_max
     return self.within(xmax, ymax, xmin, ymin)
+
+
+def open_puzzle_input() -> TextIO:
+    return open(Path(sys.argv[0]).with_suffix(".txt"))

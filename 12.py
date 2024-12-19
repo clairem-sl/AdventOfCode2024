@@ -3,16 +3,15 @@ from __future__ import annotations
 import io
 import itertools
 import operator
+
 # noinspection PyUnresolvedReferences
 import pprint  # noqa: F401
-import sys
+
 from collections.abc import Callable
 from enum import Enum, auto
-from pathlib import Path
 from typing import Final
 
-from aoc2024_common import Point
-
+from aoc2024_common import Point, open_puzzle_input
 
 TEST_VECTOR_1: Final[str] = """\
 OOOOO
@@ -61,19 +60,11 @@ AAAAAA
 TEST_EXPECT_4_2: Final[int] = 368
 
 
-DIRS: Final[list[Point]] = [
-    Point(1, 0),
-    Point(0, 1),
-    Point(-1, 0),
-    Point(0, -1)
-]
+DIRS: Final[list[Point]] = [Point(1, 0), Point(0, 1), Point(-1, 0), Point(0, -1)]
 
 
 def patches_by_species(matrix: list[str]) -> dict[str, list[set[Point]]]:
-
-    garden: list[list[str | None]] = [
-        list(row) for row in matrix
-    ]
+    garden: list[list[str | None]] = [list(row) for row in matrix]
     patches: dict[str, list[set[Point]]] = {}
 
     def _get_connected(spc: str, coord: Point) -> list:
@@ -89,7 +80,9 @@ def patches_by_species(matrix: list[str]) -> dict[str, list[set[Point]]]:
         for x, species in enumerate(row):
             if species is None:
                 continue
-            patches.setdefault(species, []).append(set(_get_connected(species, Point(x, y))))
+            patches.setdefault(species, []).append(
+                set(_get_connected(species, Point(x, y)))
+            )
 
     return patches
 
@@ -100,10 +93,7 @@ def calc_price(patches: list[set[Point]]) -> int:
         area = len(patch)
         perimeter = 0
         for coord in patch:
-            perimeter += sum(
-                (coord + _dir) not in patch
-                for _dir in DIRS
-            )
+            perimeter += sum((coord + _dir) not in patch for _dir in DIRS)
         # print(f"{area = }, {perimeter = }")
         total += area * perimeter
     return total
@@ -181,17 +171,16 @@ def find_corners(matrix: list[str], all_patches: dict[str, list[set[Point]]]):
     return corners
 
 
-def calc_price2(all_patches: dict[str, list[set[Point]]], all_corners: dict[str, dict[Point, list[CornerType]]]):
+def calc_price2(
+    all_patches: dict[str, list[set[Point]]],
+    all_corners: dict[str, dict[Point, list[CornerType]]],
+):
     total = 0
     for species, patches in all_patches.items():
         sp_corners = all_corners[species]
         for patch in patches:
             area = len(patch)
-            sides = sum(
-                len(sp_corners[pos])
-                for pos in patch
-                if pos in sp_corners
-            )
+            sides = sum(len(sp_corners[pos]) for pos in patch if pos in sp_corners)
             total += area * sides
     return total
 
@@ -206,17 +195,15 @@ def consume(stream) -> list[str]:
 
 
 def _test():
-
-    def _runtest(label: str, test_vector: str, expect1: int | None, expect2: int | None):
+    def _runtest(
+        label: str, test_vector: str, expect1: int | None, expect2: int | None
+    ):
         with io.StringIO(test_vector) as fin:
             data = consume(fin)
         plots = patches_by_species(data)
 
         if expect1 is not None:
-            result = sum(
-                calc_price(coverage)
-                for coverage in plots.values()
-            )
+            result = sum(calc_price(coverage) for coverage in plots.values())
             print(f"Test {label}-1:", result, f"(should be {expect1})")
             assert result == expect1
 
@@ -239,15 +226,11 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
     plots = patches_by_species(data)
 
-    result = sum(
-        calc_price(coverage)
-        for coverage in plots.values()
-    )
+    result = sum(calc_price(coverage) for coverage in plots.values())
     print("Case 1:", result)
 
     all_corners = find_corners(data, plots)
@@ -255,6 +238,6 @@ def _main():
     print("Case 2:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()

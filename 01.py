@@ -3,6 +3,8 @@ from __future__ import annotations
 import collections
 import io
 
+from aoc2024_common import open_puzzle_input
+
 TEST_VECTOR = """\
 3   4
 4   3
@@ -51,12 +53,12 @@ def _test():
 
 
 def _main():
-    with open("01.txt", "rt") as fin:
+    with open_puzzle_input() as fin:
         left, right = consume(fin)
+
     result = calculate_1(left, right)
     print("Actual Data Case 1:", result)
-    with open("01.txt", "rt") as fin:
-        left, right = consume(fin)
+
     result = calculate_2(left, right)
     print("Actual Data Case 2:", result)
 

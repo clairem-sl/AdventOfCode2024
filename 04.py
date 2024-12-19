@@ -5,6 +5,7 @@ from enum import IntEnum
 from itertools import product
 from typing import Final
 
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR: Final[str] = """\
 MMMSXXMASM
@@ -106,7 +107,7 @@ def _test():
 
 
 def _main():
-    with open("04.txt", "rt") as fin:
+    with open_puzzle_input() as fin:
         matrix = consume(fin)
 
     result = count_xmas(matrix)

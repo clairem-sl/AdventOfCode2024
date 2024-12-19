@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import io
 import itertools
-import sys
 import time
 
 from collections import deque
-from pathlib import Path
 from typing import Final
 
+from aoc2024_common import open_puzzle_input
 
 TEST_VECTOR: Final[str] = "2333133121414131402"
 TEST_EXPECT_1: Final[int] = 1928
@@ -39,11 +38,7 @@ def build_disk_image(rle: str):
 
 
 def compact_disk_image(image: list[int | None]):
-    empty_locs = deque(
-        n
-        for n, fid in enumerate(image)
-        if fid is None
-    )
+    empty_locs = deque(n for n, fid in enumerate(image) if fid is None)
     new_image = image.copy()
     while empty_locs:
         fid = new_image.pop()
@@ -107,11 +102,7 @@ def defrag_disk_image(image: list[int | None]):
 
 
 def checksum(image: list[int | None]) -> int:
-    return sum(
-        n * fid
-        for n, fid in enumerate(image)
-        if fid is not None
-    )
+    return sum(n * fid for n, fid in enumerate(image) if fid is not None)
 
 
 def _test():
@@ -132,8 +123,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         rle = consume(fin)
 
     image1 = build_disk_image(rle)
@@ -147,7 +137,7 @@ def _main():
     print("Case 2:", result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _start = time.monotonic()
     _test()
     _main()

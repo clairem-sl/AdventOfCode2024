@@ -3,12 +3,10 @@ from __future__ import annotations
 import io
 import math
 import re
-import sys
 
-from pathlib import Path
 from typing import NamedTuple
 
-from aoc2024_common import Point
+from aoc2024_common import Point, open_puzzle_input
 
 TEST_VECTORa = """\
 p=0,4 v=3,-3
@@ -46,11 +44,10 @@ class Robot(NamedTuple):
     velo: Point
 
 
-def final_location(starting_data: list[Robot], dimension: Point, time_passed: int) -> list[Point]:
-    final_pos = [
-        (r.start + (r.velo * time_passed)) % dimension
-        for r in starting_data
-    ]
+def final_location(
+    starting_data: list[Robot], dimension: Point, time_passed: int
+) -> list[Point]:
+    final_pos = [(r.start + (r.velo * time_passed)) % dimension for r in starting_data]
     return final_pos
 
 
@@ -85,8 +82,9 @@ def has_christmas_tree(final_pos: list[Point], depth: int = 5) -> bool:
         # Checking for triangle
         for shift in range(1, depth + 5):
             for dx in range(1, shift + 1):
-                if (_r := one.shift_by(dx, shift)) not in points or \
-                        (_l := one.shift_by(-dx, shift)) not in points:
+                if (_r := one.shift_by(dx, shift)) not in points or (
+                    _l := one.shift_by(-dx, shift)
+                ) not in points:
                     break
                 if _r in seen or _l in seen:
                     break
@@ -120,7 +118,7 @@ def has_christmas_tree2(final_pos: list[Point], dimension: Point) -> bool:
     rslt1 = re.findall(patt1, dumps)
     if len(rslt1) < 3:
         return False
-    patt2 = fr"1.{{{dimension.x - 1}}}1"
+    patt2 = rf"1.{{{dimension.x - 1}}}1"
     rslt2 = re.findall(patt2, dumps)
     if len(rslt2) < 10:
         return False
@@ -163,8 +161,7 @@ def _test():
 
 
 def _main():
-    data_file = Path(sys.argv[0]).with_suffix(".txt")
-    with open(data_file, "rt") as fin:
+    with open_puzzle_input() as fin:
         data = consume(fin)
 
     dimension = Point(101, 103)
@@ -186,6 +183,6 @@ def _main():
     print("\nChristmas Tree possibly seen at", count)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
     _main()
