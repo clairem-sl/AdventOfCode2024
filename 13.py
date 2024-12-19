@@ -4,7 +4,7 @@ import io
 import re
 import sys
 from pathlib import Path
-from typing import Protocol, cast, SupportsInt
+from typing import Protocol, SupportsInt
 
 # a1.x + b1.y + c1 = 0
 # a2.x + b2.y + c2 = 0
@@ -80,8 +80,6 @@ def aoc_solve2(a1, b1, nc1, a2, b2, nc2) -> tuple[int, int] | None:
     if not x.is_integer() or not y.is_integer():
         return None
     return int(x), int(y)
-
-
 
 
 RE_BUTTON = re.compile(r"Button (?P<btn>[AB]): X\+(?P<dx>\d+), Y\+(?P<dy>\d+)")

@@ -5,7 +5,6 @@ import math
 import re
 import sys
 
-from collections import Counter
 from pathlib import Path
 from typing import NamedTuple
 
@@ -87,7 +86,7 @@ def has_christmas_tree(final_pos: list[Point], depth: int = 5) -> bool:
         for shift in range(1, depth + 5):
             for dx in range(1, shift + 1):
                 if (_r := one.shift_by(dx, shift)) not in points or \
-                    (_l := one.shift_by(-dx, shift)) not in points:
+                        (_l := one.shift_by(-dx, shift)) not in points:
                     break
                 if _r in seen or _l in seen:
                     break
@@ -98,7 +97,7 @@ def has_christmas_tree(final_pos: list[Point], depth: int = 5) -> bool:
                 # so we go into next shift
                 continue
             # If we reached this that means we 'broke out' of the dx loop, and
-            # that means what we've been scanning is not possible to be a xmas tree
+            # that means what we've been scanning is not possible to be an Xmas tree
             possibles.clear()
             break
         else:
@@ -114,7 +113,7 @@ def has_christmas_tree2(final_pos: list[Point], dimension: Point) -> bool:
     dump = []
     for y in range(dimension.y):
         for x in range(dimension.x):
-            dump.append("1" if Point(x,y) in allpos else " ")
+            dump.append("1" if Point(x, y) in allpos else " ")
     dumps = "".join(dump)
     del dump
     patt1 = "1" * 21
